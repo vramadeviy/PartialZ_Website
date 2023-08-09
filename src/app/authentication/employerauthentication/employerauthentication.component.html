@@ -1,0 +1,56 @@
+<div class="auth-container">
+    <div class="row auth-main">
+      <div class="col-sm-6 px-0 d-none d-sm-block">
+        <div class="left-img" style="background-image: url(assets/images/ADOL.jpg);">
+        </div>
+      </div>
+      <div class="col-sm-6 auth-form-section">
+        <div class="form-section">
+          <div class="auth-wrapper">
+            <h2 class="welcome-msg"> Employer Authorization </h2>
+            <p class="auth-signup-text text-muted">Enter details to create your account</p>
+            <form class="validate-form" [formGroup]="employerAuthForm" >
+          
+                <div class="row">
+                  <div class="col-xl-12col-lg-12 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>EAN Number</mat-label>
+                      <input matInput placeholder="EAN Number" formControlName="eanNumber" maxlength="16" required (keypress)="numberOnly($event)">
+                      <mat-error *ngIf="eanFormErrors('required')">
+                        EAN Number is required
+                      </mat-error>
+                      <mat-error *ngIf="eanFormErrors('minlength')">
+                        EAN Number should be in 10 characters!
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-xl-12col-lg-12 col-md-12 col-sm-12 mb-2">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                      <mat-label>FEIN Number</mat-label>
+                      <input matInput placeholder="FEIN Number" formControlName="feinNumber" maxlength="16" required (keypress)="numberOnly($event)">             
+                      <mat-error *ngIf="feinFormErrors('required')">
+                        FEIN Number is required
+                      </mat-error>
+                      <mat-error *ngIf="feinFormErrors('minlength')">
+                        FEIN Number should be in 9 characters!
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>          
+                <div class="container-auth-form-btn">
+                  <button mat-flat-button color="primary" class="auth-form-btn" type="submit" (click)="onemployerAuthSubmit()">
+                    <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-check': !isLoading}"></i>
+                    {{button}}
+                  </button>
+                </div>
+              </form>
+           
+          </div>
+        </div>
+      </div>
+  
+    </div>
+  </div>
+  

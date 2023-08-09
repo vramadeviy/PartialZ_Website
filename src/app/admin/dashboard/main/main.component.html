@@ -1,0 +1,100 @@
+<section class="content">
+  <div class="content-block">
+   <br>
+   <br>
+   <div class="row clearfix">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="card">
+          <div class="header">
+            <h2 style="color: blue;">New Filers List</h2>          
+           
+          </div>
+          <div class="tableBody">
+            <div class="table-responsive">
+              <table mat-table class="table" [dataSource]="dataSource">
+                <ng-container matColumnDef="filerName">
+                  <th mat-header-cell *matHeaderCellDef> Filer Name </th>
+                  <td mat-cell *matCellDef="let element"> {{element.filerName}} </td>
+                </ng-container>
+              
+                <!-- Position Column -->
+                <ng-container matColumnDef="email">
+                  <th mat-header-cell *matHeaderCellDef> Email </th>
+                  <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+                </ng-container>
+              
+               <!-- Name Column -->
+                <ng-container matColumnDef="employerName">
+                  <th mat-header-cell *matHeaderCellDef> Employer Name </th>
+                  <td mat-cell *matCellDef="let element"> {{element.employerName}} </td>
+                </ng-container>
+              
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="eannumber">
+                  <th mat-header-cell *matHeaderCellDef> EAN Number </th>
+                  <td mat-cell *matCellDef="let element"> {{element.eannumber}} </td>
+                </ng-container>
+            
+            
+                   <!-- Position Column -->
+                   <ng-container matColumnDef="feinnumber">
+                    <th mat-header-cell *matHeaderCellDef> FEIN Number </th>
+                    <td mat-cell *matCellDef="let element"> {{element.feinnumber}} </td>
+                  </ng-container>
+                
+                 <!-- Name Column -->
+                  <ng-container matColumnDef="phoneNumber">
+                    <th mat-header-cell *matHeaderCellDef> Phone Number </th>
+                    <td mat-cell *matCellDef="let element"> {{element.phoneNumber}} </td>
+                  </ng-container>
+                
+                  <!-- Symbol Column -->
+                  <ng-container matColumnDef="payrollEndDay">
+                    <th mat-header-cell *matHeaderCellDef> Payroll End Day </th>
+                    <td mat-cell *matCellDef="let element"> {{element.payrollEndDay}} </td>
+                  </ng-container>
+                  <ng-container matColumnDef="AffidavitApprovalStatus">
+                    <th mat-header-cell *matHeaderCellDef> Affidavit Approval Status </th>
+                    <td mat-cell *matCellDef="let element"> {{AffidavitApprovalStatus}} </td>
+                  </ng-container>
+                  
+              
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                <!-- <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Filer Name</th>
+                    <th>Email</th>
+                    <th>Employer Name</th>
+                    <th>EAN number</th>
+                    <th>FEIN Number</th>
+                    <th>Phone Number</th>
+                    <th>Payroll End Day</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="table-img">
+                     
+                    </td>
+                    <td *matCellDef="let element">{{element.filerName}}</td>
+                    <td *matCellDef="let element">{{element.email}}</td>
+                    <td *matCellDef="let element">{{element.employerName}}</td>
+                    <td *matCellDef="let element">{{element.eannumber}}</td>
+                    <td *matCellDef="let element">{{element.feinnumber}}</td>
+                    <td *matCellDef="let element">
+                      {{element.phoneNumber}}
+                    </td>
+                    <td *matCellDef="let element">  {{element.payrollEndDay}} </td>
+                  </tr>
+                
+                </tbody> -->
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

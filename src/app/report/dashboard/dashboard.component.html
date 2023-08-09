@@ -1,0 +1,31 @@
+<br>
+<section class="content">
+    <div class="block-header">
+        <h2 style="color:purple;"> Report </h2>
+        </div>
+        <div class="content-block">
+            <div class="row">
+                <div class="col-xl-12col-lg-12 col-md-3 col-sm-3 mb-1">                                 
+                   
+                        <!-- <mat-label>Filer Name</mat-label> -->                         
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-select 
+                        placeholder="Filers" 
+                        name="name"  [(ngModel)]="selectedFilers" >                         
+                        <mat-option *ngFor="let name of filernames" [value]="name">
+                            {{name.filerName }} 
+                          </mat-option>
+                        </mat-select>
+                    </mat-form-field> 
+              </div>
+              <div class="col-xl-12col-lg-12 col-md-6 col-sm-6 mb-1">
+                <button mat-flat-button color="primary" class="auth-form-btn" type="button" class="button" (click)="onclick()">Report </button>
+              </div>
+            </div>
+            <ng-container *ngIf="visible">
+                <div class="content-block"> 
+                </div>
+            </ng-container>
+ </div>
+
+  </section>
