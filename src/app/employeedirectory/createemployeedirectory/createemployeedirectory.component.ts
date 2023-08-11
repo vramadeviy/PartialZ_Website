@@ -168,6 +168,8 @@ export class CreateemployeedirectoryComponent {
           {
             this.selectedCitizen="";
           }
+          if(data !=null)
+          {
           this.employeeDirectoryFormGroup.setValue({
             ssnCtrl: ssn,
             dateofbirthCtrl: data.dateOfBirth,
@@ -192,6 +194,7 @@ export class CreateemployeedirectoryComponent {
             authorizedalienNumberCtrl : data.authorizedAlienNumber
 
           });
+        }
           this.isonLoading=false;
           this.value = 0;
         });
@@ -233,9 +236,9 @@ return true;
   onChange(event:any)
   {
     let target = event.source.selected._element.nativeElement;
-    if(target.innerText.trim() =="AUTHORIZEDALIEN")
+    if(target.innerText.trim() =="No")
     {
-      this.selectedCitizen= "AUTHORIZEDALIEN";
+      this.selectedCitizen= "No";
     }
     else
     {

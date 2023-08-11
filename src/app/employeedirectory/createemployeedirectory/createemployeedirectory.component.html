@@ -26,7 +26,7 @@
                                     <div class="col-xl-12col-lg-12 col-md-3 col-sm-3 mb-1">                                 
                                     <mat-form-field class="example-full-width" appearance="outline">
                                       <mat-label>Social Security Number</mat-label>
-                                      <input matInput type="text" placeholder="Social Security Number" (change)="changeValue($event)" formControlName="ssnCtrl" maxlength="15" (keypress)="numberOnly($event)"/>
+                                      <input matInput type="text" placeholder="Social Security Number"  formControlName="ssnCtrl" maxlength="9" (keypress)="numberOnly($event)"/>
                                       <mat-error *ngIf="haserror('ssnCtrl','required')">
                                         Enter Social Security Number!
                                        </mat-error>
@@ -144,7 +144,7 @@
                                   <div class="col-xl-12col-lg-12 col-md-2 col-sm-2 mb-1">
                                     <mat-form-field class="example-full-width" appearance="outline">
                                       <mat-label>Zip code</mat-label>
-                                      <input matInput type="text" placeholder="Zip Code" formControlName="zipCodeCtrl" />
+                                      <input matInput type="text" placeholder="Zip Code" maxlength="5"  formControlName="zipCodeCtrl" />
                                       <mat-error *ngIf="haserror('zipCodeCtrl','required')">
                                         Enter Zip Code!
                                        </mat-error>
@@ -264,16 +264,16 @@
                                          </mat-error>
                                     </mat-form-field>
                                     </div>
-                                    <div class="col-xl-12col-lg-12 col-md-3 col-sm-3 mb-1" *ngIf="selectedCitizen == 'AUTHORIZEDALIEN'">
+                                    <div class="col-xl-12col-lg-12 col-md-3 col-sm-3 mb-1" *ngIf="selectedCitizen == 'No'">
                                       <mat-form-field class="example-full-width" appearance="outline" >
                                           <mat-label>Authorized Alien Number</mat-label>
-                                            <input   matInput type="text" placeholder="Authorized Alien Number" formControlName="authorizedalienNumberCtrl" />
+                                            <input   matInput type="text" placeholder="Authorized Alien Number" maxlength="10" formControlName="authorizedalienNumberCtrl" />
                                             <mat-error *ngIf="haserror('authorizedalienNumberCtrl','required')">
                                               Enter Claimant Last Name!
                                              </mat-error>
                                         </mat-form-field>  
                                   </div>
-                                  <div class="col-xl-12col-lg-12 col-md-3 col-sm-3 mb-1" *ngIf="selectedCitizen !== 'AUTHORIZEDALIEN'"></div>
+                                  <div class="col-xl-12col-lg-12 col-md-3 col-sm-3 mb-1" *ngIf="selectedCitizen !== 'No'"></div>
                                   <div class="col-xl-12col-lg-12 col-md-3 col-sm-3 mb-1"></div>
                                 </div>
                                 <div class="row"  style="justify-content: center;">
@@ -318,21 +318,39 @@
                       </div>
               </mat-tab> 
               <mat-tab label="fileupload" style="height: 950px;">
-
-                <div class="card">
-                  <div class="card-header">Form</div>
-                  <div class="card-body">
-                  
+<div>
+  <div class="container">
+    <div class="card">
+  <div class="body">
+    <h4 class="button-like"><b>File Bulk Partials</b>
+    <p>
+      NEW FORMAT FOR 2023</p> </h4>
+    <p class="same-width">
+      Please see revised excel file and instructions effective  <br />
+      10/05/2021 - failure to comply with new format may result in file rejection.
+    </p>
+    <h4>File Formats:</h4>
+    <ul>
+    <li><a href="assets/images/Partials Bulk Excel File Instructions.pdf"><b>Upload File Format (Revised 10/05/2021)</b></a></li>
+    <li><a href="assets/images/Partials Bulk Filing Instructions.pdf"><b>Partial Bulk Filing Spreadsheet(Revised 10/05/2021)</b></a></li>
+    <li><a href="assets/images/EmployeeDirectory_export_1691671945772.xlsx"><b>Upload Instructions / Requirements</b></a></li>
+    </ul>
+    </div>
+  </div>
+  </div>
+</div> 
+            
+<div class="container">
+  <div class="card">
                   <form novalidate [formGroup]="formImport">
                     <div class="input-group mb-3">
                   
                   <div class="custom-file">
                     <input type="file" class="custom-file-input" multiple formControlName="importFile" id="importFile" (change)="onFileChange($event)"/>
-                    <!-- <label class="custom-file-label" #labelImport for="importFile"><i class="fas fa-search"></i> Choose file</label> -->
                   </div>
                 </div>
                 <div class="card">
-                  <div class="body">
+                  
                     <table class="table">
                       <tbody>                        
                         <tr *ngFor="let row of data">
@@ -342,7 +360,7 @@
                       </tr>
                       </tbody>
                     </table>
-                  </div>  
+                 
                   </div>
                   <div class="container-auth-form-btn" style="text-align: center;">
                     <button mat-flat-button color="primary" type="submit" style="margin-right:  20px;" >
@@ -352,47 +370,10 @@
                     <button color="primary" mat-flat-button mat-dialog-close >Close</button>
               </div> 
                   </form>
-                  </div>
                 </div>
+                </div> 
 
-<!--                 
-                <div class="container">
-                  <div class="body">  
-                  <div class="table-responsive">
-                    <div class="header">
-                      <h2 style="color: blue;">Employee Directory file Upload Details</h2>          
-                     
-                    </div> 
-                    <div class="input-group mb-3">
-                    <div class="custom-file">
-                      <input type="file" class="custom-file-input" multiple formControlName="importFile" id="importFile"  (change)="onFileChange($event)">
-                      <label class="custom-file-label" #labelImport for="importFile"><i class="fas fa-search"></i> Choose file</label>
-                    </div>
-                    </div>
-                  </div>
 
-                  <div class="card">
-                  <div class="body">
-                    <table class="table" >
-                      <tbody>                        
-                        <tr *ngFor="let row of data">
-                        <td *ngFor="let val of row">
-                          {{val}}
-                        </td>
-                      </tr>
-                      </tbody>
-                    </table>
-                  </div>  
-                  </div>
-                  </div>   
-                  </div>
-                <div class="container-auth-form-btn" style="text-align: center;">
-                  <button mat-flat-button color="primary" type="submit" style="margin-right:  20px;" >
-                    <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-check': !isLoading}"></i>
-    {{button}}                                  
-                   </button>
-                  <button color="primary" mat-flat-button mat-dialog-close >Close</button>
-            </div> -->
               </mat-tab>
            
             </mat-tab-group>  

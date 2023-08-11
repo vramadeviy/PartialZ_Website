@@ -1,5 +1,5 @@
 
-import { Component, OnInit,ViewChild,ElementRef } from '@angular/core';
+import { Component, OnInit,ViewChild,ElementRef, resolveForwardRef } from '@angular/core';
 import { PartialzService } from 'src/app/core/service/partialz.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
@@ -7,6 +7,8 @@ import {MatTableDataSource,} from '@angular/material/table';
 import { MatSort} from '@angular/material/sort';
 import {MatPaginator} from '@angular/material/paginator';
 import { CreateemployeedirectoryComponent } from '../createemployeedirectory/createemployeedirectory.component';
+import { ConfirmationDialogComponent } from '../../confirmation-dialog/confirmation-dialog.component';
+
 import { Router, ActivatedRoute } from '@angular/router';
 import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
@@ -70,7 +72,7 @@ export class DashboardComponent {
   @ViewChild('filter') filter!: ElementRef;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  constructor(private _partialzService : PartialzService,     public _dialog: MatDialog,  private router: Router,
+  constructor(private _partialzService : PartialzService,     public _dialog: MatDialog,  private router: Router,  private _snackBar: MatSnackBar,
     ){
    
   }
@@ -91,6 +93,11 @@ export class DashboardComponent {
   }
   getDisplayedColumns():string[] {
     return this.displayedColumns.filter(cd=>!cd.hide).map(cd=>cd.def);
+  }
+  private showSnackbar(message: string, action: string): void {
+    this._snackBar.open(message, action, {
+      duration: 6000, // Duration in milliseconds
+    });
   }
   edit(e: any) {
     const dialogRef = this._dialog.open(CreateemployeedirectoryComponent, {  
@@ -125,13 +132,28 @@ export class DashboardComponent {
       this.bindGridData();
     });
   }
+  delete(ssn:string)
+  {
+    const dialogRef = this._dialog.open(ConfirmationDialogComponent);
+if(ssn!=null)
+{
   
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) { 
+        console.log(ssn) ;
+        console.log(result) ;
+        this._partialzService.post<any>('https://localhost:7178/api/EmployeeDirectory/DeleteEmployeeDirectory', ssn).subscribe(
+      (response) => {
+        if(response.includes('Deleted Successfully..'))
+        this.showSnackbar(response, "OK");
+      });
+      }
+    }); 
+  }
+  }
   applyFilter(filterValue:any) {
-    console.log(filterValue.target.value);
-    filterValue = filterValue.target.value.trim(); // Remove whitespace
-    //filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-    console.log(this.tableData);
-    this.dataSource.filter = filterValue;
+    filterValue = filterValue.target.value.trim();
+    this.dataSource.filter=filterValue;
   }
   openDialog() {
     const dialogRef = this._dialog.open(CreateemployeedirectoryComponent, {  
@@ -172,8 +194,8 @@ export class DashboardComponent {
     this._partialzService.get<any>('https://localhost:7178/api/EmployeeDirectory/EmployeeDirectoryDetails?EmailID=' + authEmail).subscribe(
       (data) => {
         {     
-          this.tableData=data;  
-          this.dataSource = data;       
+          this.tableData=data;
+          this.dataSource = new MatTableDataSource(data);
         } 
       }
     );

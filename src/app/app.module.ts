@@ -29,6 +29,7 @@ import {MaterialModule} from './material-module';
 
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import { NgScrollbarModule } from 'ngx-scrollbar';
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
 }
@@ -42,6 +43,7 @@ export function createTranslateLoader(http: HttpClient) {
     RightSidebarComponent,
     AuthLayoutComponent,
     MainLayoutComponent,
+    ConfirmationDialogComponent,
   ],
   imports: [
     BrowserModule,
