@@ -442,5 +442,24 @@ dataSource = new MatTableDataSource<DataItem>;;
   }
   OpenEditDialog(currentRow:DataItem){
     alert('open me in edit dailog:-'+currentRow.claimantFirstName + currentRow);
+    /* create EditDialogComponent or you can use if you have it alredy.  
+     recive the data in component onload and bind it to html elements like text box, drowdown etc.
+    */
+    // const dialogRef = this.dialog.open(EditDialogComponent, {
+    //   data: currentRow,
+    // });
+    // /* after click on mydify/save buttion on above diloag, below code will update the data source. */
+    //   dialogRef.afterClosed().subscribe((updatedRow:DataItem) => {
+    //     if (updatedRow) {
+    //       /* Find the index of the updated row in the data source */
+    //      const index = this.dataSource.data.findIndex(row => row === currentRow);
+          
+    //       /*  Update the data source with the updated row */
+    //       if (index !== -1) {
+    //         this.dataSource.data[index] = updatedRow;
+    //         this.dataSource = new MatTableDataSource<DataItem>(this.dataSource.data);
+    //       }
+    //     }
+    //   });
   }
 }
