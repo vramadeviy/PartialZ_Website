@@ -6,11 +6,13 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import {MaterialModule} from './material-module';
 import {FormBuilder, Validators, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { CreateemployeedirectoryComponent } from './createemployeedirectory/createemployeedirectory.component';
+import { ModifyemployeedirectoryComponent } from './modifyemployeedirectory/modifyemployeedirectory.component';
 
 @NgModule({
   declarations: [
     DashboardComponent,
-    CreateemployeedirectoryComponent
+    CreateemployeedirectoryComponent,
+    ModifyemployeedirectoryComponent
   ],
   imports: [CommonModule, EmployeeDirectoryRoutingModule,MaterialModule,FormsModule,ReactiveFormsModule],
 })

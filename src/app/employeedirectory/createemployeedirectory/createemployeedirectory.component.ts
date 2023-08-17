@@ -11,6 +11,7 @@ import { map } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { DataItem } from 'src/app/Dtos/DataItem';
 import { MatTableDataSource } from '@angular/material/table';
+import { ModifyemployeedirectoryComponent } from '../modifyemployeedirectory/modifyemployeedirectory.component';
 
 export interface StatesDto {
   stateId: number;
@@ -85,36 +86,36 @@ export class CreateemployeedirectoryComponent {
   ssn: string = "";
   res: any[] = [];
   formImport!: FormGroup;
-// my code
-displayedColumns: string[] = [
-  'email',
-  'socialSecurityNumber',
-  'dateOfBirth',
-  'telephoneNumber',
-  'gender',
-  'genderCode',
-  'occupation',
-  'mailingAddress',
-  'claimantFirstName',
-  'claimantMiddleName',
-  'claimantLastName',
-  'claimantSuffix',
-  'authorizedAlienNumber',
-  'mailingStreetAddress',
-  'mailingCity',
-  'mailingState',
-  'mailingStateCode',
-  'zipCode',
-  'handicap',
-  'veteranStatus',
-  'race',
-  'ethnicity',
-  'federalwithHolding',
-  'citizen',
-  'education'
-];
-dataSource = new MatTableDataSource<DataItem>;;
-//end
+  // my code
+  displayedColumns: string[] = [
+    'email',
+    'socialSecurityNumber',
+    'dateOfBirth',
+    'telephoneNumber',
+    'gender',
+    'genderCode',
+    'occupation',
+    'mailingAddress',
+    'claimantFirstName',
+    'claimantMiddleName',
+    'claimantLastName',
+    'claimantSuffix',
+    'authorizedAlienNumber',
+    'mailingStreetAddress',
+    'mailingCity',
+    'mailingState',
+    'mailingStateCode',
+    'zipCode',
+    'handicap',
+    'veteranStatus',
+    'race',
+    'ethnicity',
+    'federalwithHolding',
+    'citizen',
+    'education'
+  ];
+  dataSource = new MatTableDataSource<DataItem>;;
+  //end
 
   constructor(private _formBuilder: FormBuilder,
     private readonly _partialzService: PartialzService,
@@ -424,9 +425,9 @@ dataSource = new MatTableDataSource<DataItem>;;
             federalwithHolding: row[22],
             citizen: row[23],
             education: row[24],
-            validation:true
+            validation: true
           };
-        });        
+        });
         this.dataSource = new MatTableDataSource<DataItem>(transformedData);
         // this.data.map((res: any) => {
         //   if (res[0] === "no") {
@@ -440,26 +441,46 @@ dataSource = new MatTableDataSource<DataItem>;;
     }
 
   }
-  OpenEditDialog(currentRow:DataItem){
-    alert('open me in edit dailog:-'+currentRow.claimantFirstName + currentRow);
+  OpenEditDialog(currentRow: DataItem) {
+    alert('open me in edit dailog:-' + currentRow.claimantFirstName + currentRow);
     /* create EditDialogComponent or you can use if you have it alredy.  
      recive the data in component onload and bind it to html elements like text box, drowdown etc.
     */
-    // const dialogRef = this.dialog.open(EditDialogComponent, {
-    //   data: currentRow,
-    // });
-    // /* after click on mydify/save buttion on above diloag, below code will update the data source. */
-    //   dialogRef.afterClosed().subscribe((updatedRow:DataItem) => {
-    //     if (updatedRow) {
-    //       /* Find the index of the updated row in the data source */
-    //      const index = this.dataSource.data.findIndex(row => row === currentRow);
-          
-    //       /*  Update the data source with the updated row */
-    //       if (index !== -1) {
-    //         this.dataSource.data[index] = updatedRow;
-    //         this.dataSource = new MatTableDataSource<DataItem>(this.dataSource.data);
-    //       }
-    //     }
-    //   });
+    // assigh dropdown values here
+    // currentRow.states = this.states;
+    // currentRow.races = this.races;
+    // currentRow.veterans = this.veterans;
+    // //currentRow.withholdings = this.withholdings;
+    // //currentRow.namesuffixs = this.namesuffixs;
+    // currentRow.handicaps = this.handicaps;
+    // currentRow.genders = this.genders;
+    // currentRow.ethnicityList = this.ethnicity;
+    // currentRow.citizens = this.citizens;
+    // currentRow.educations = this.educations;
+    const dialogRef = this._dialog.open(ModifyemployeedirectoryComponent, {
+      data: currentRow,
+      disableClose: true,
+      maxHeight: '90h',
+      maxWidth: '60vw',
+      minWidth: '70vw'
+    });
+    /* after click on mydify/save buttion on above diloag, below code will update the data source. */
+    dialogRef.afterClosed().subscribe((updatedRow: DataItem) => {
+      console.log('data from dailog');
+      console.log(updatedRow);
+      if (updatedRow) {
+        /* Find the index of the updated row in the data source */
+        const index = this.dataSource.data.findIndex(row => row === currentRow);
+
+        /*  Update the data source with the updated row */
+        if (index !== -1) {
+          this.dataSource.data[index] = { ...updatedRow }; // Create a copy of the updated row
+          this.dataSource = new MatTableDataSource<DataItem>(this.dataSource.data);
+          // this.dataSource.data[index] = updatedRow;
+          // this.dataSource.data = [...this.dataSource.data];
+          //this.dataSource.data = new MatTableDataSource<DataItem>(this.dataSource.data);
+        }
+      }
+    });
   }
 }
