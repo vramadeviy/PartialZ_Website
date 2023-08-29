@@ -8,6 +8,8 @@ import {
 } from '@angular/forms';
 import { PartialzService } from 'src/app/core/service/partialz.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ConfigService } from 'src/app/config/config.service';
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-employerauthentication',
   templateUrl: './employerauthentication.component.html',
@@ -39,7 +41,8 @@ employerAuthForm = this.formBuilder.group({
       if(em!=null)
       {
         let obj  = JSON.parse(atob(decodeURIComponent(em)));
-      this.emailId  = obj.emailAddress;
+      this.emailId  = obj.emailAddress;      
+      localStorage.removeItem('email');
       localStorage.setItem('email',this.emailId);
       }
       console.log(this.emailId);
@@ -85,9 +88,6 @@ feinFormErrors(error: string) {
       this.button ="Processing";
       const eanNumber = this.employerAuthForm.get('eanNumber'),
         feinNumber = this.employerAuthForm.get('feinNumber');
-        console.log(eanNumber?.valid);
-        console.log(feinNumber?.valid);
-        console.log(this.employerAuthForm.valid);
       if (this.employerAuthForm.valid) {
   
         if (eanNumber !== null && feinNumber !== null) {
@@ -113,7 +113,7 @@ feinFormErrors(error: string) {
       };
       
       //this.isProcessing=true;
-      this._partialzService.post<any>('https://localhost:7178/api/Employer', body).subscribe(
+      this._partialzService.post<any>(environment.apiUrl+'/Employer', body).subscribe(
         (data) => {
           {       
             this.showSnackbar("Authorization successfully", "OK");
@@ -144,7 +144,7 @@ feinFormErrors(error: string) {
     }
     Veifyemail(token: string): void {
       console.log(token);
-      this._partialzService.get<any>('https://localhost:7178/api/Employee/VerifyEmployee?token=' + token).subscribe(
+      this._partialzService.get<any>(environment.apiUrl+'/Employee/VerifyEmployee?token=' + token).subscribe(
         (response) => {
           if (response == 1) {
          

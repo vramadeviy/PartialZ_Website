@@ -6,11 +6,15 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import {MaterialModule} from './material-module';
 import {FormBuilder, Validators, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { CreateclaimComponent } from './createclaim/createclaim.component';
+import { FileuploadComponent } from './fileupload/fileupload.component';
+import { ModifyclaimComponent } from './modifyclaim/modifyclaim.component';
 
 @NgModule({
   declarations: [
     DashboardComponent,
-    CreateclaimComponent
+    CreateclaimComponent,
+    FileuploadComponent,
+    ModifyclaimComponent
   ],
   imports: [CommonModule, ClaimRoutingModule,MaterialModule,FormsModule,ReactiveFormsModule],
 })

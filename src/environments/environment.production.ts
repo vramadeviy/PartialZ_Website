@@ -1,4 +1,4 @@
 export const environment = {
-    production: false,
-    apiUrl: '  https://adol-partialsapi-prod.adolprod.appserviceenvironment.net/PartialsApi',
+    production: true,
+    apiUrl: 'https://adol-partialsapi-dev.adoldevtest.appserviceenvironment.net/PartialsApi-Prod/api/',
   };

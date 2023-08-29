@@ -10,6 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { PartialzService } from 'src/app/core/service/partialz.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TermsandtonditionsComponent } from 'src/app/authentication/termsandtonditions/termsandtonditions.component';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-affidavit',
@@ -41,7 +42,7 @@ export class AffidavitComponent  {
      private router: Router,    
      private readonly _partialzService: PartialzService,
      private _snackBar: MatSnackBar,
-     public _dialog: MatDialog
+     public _dialog: MatDialog,
    ) {}
    affidavitFormGroup = this.formBuilder.group({     
     aEANNumber: [''],
@@ -160,7 +161,7 @@ export class AffidavitComponent  {
     // }
   }
   AffidavitRegistration(body : any): void {
-    this._partialzService.post<any>('https://localhost:7178/api/Employer/AffidavitRegistration', body).subscribe(
+    this._partialzService.post<any>(environment.apiUrl+'/Employer/AffidavitRegistration', body).subscribe(
       (response) => {
         if (response == 1) {      
           this.showSnackbar("Registered successfully submitted", "OK");

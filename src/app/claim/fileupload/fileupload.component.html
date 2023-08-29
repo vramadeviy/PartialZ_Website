@@ -1,0 +1,226 @@
+<section class="content">
+    <div class="content-block">
+        <br>
+        <br>
+    <div style="text-align: center;">
+        <div class="row clearfix">
+      <div class="container">
+        <div class="card">
+      <div class="body">
+        <h4 class="button-like"><b>File Bulk Partials</b>
+        <p>
+          NEW FORMAT FOR 2023</p> </h4>
+        <p class="same-width">
+          Please see revised excel file and instructions effective  <br />
+          10/05/2021 - failure to comply with new format may result in file rejection.
+        </p>
+        <h4>File Formats:</h4>
+        <ul>
+        <li><a href="assets/images/Partials Bulk Excel File Instructions.pdf"><b>Upload File Format (Revised 10/05/2021)</b></a></li>
+        <li><a href="assets/images/Partials Bulk Filing Instructions.pdf"><b>Partial Bulk Filing Spreadsheet(Revised 10/05/2021)</b></a></li>
+        <li><a href="assets/images/EmployeeDirectory_export_1691671945772.xlsx"><b>Upload Instructions / Requirements</b></a></li>
+        </ul>
+        </div>
+      </div>
+      </div>
+    </div> 
+</div>
+<div class="row clearfix">
+    <div class="container">
+      <div class="card">
+        <form novalidate [formGroup]="formImport">
+          <div class="input-group mb-3">
+    
+            <div class="custom-file">
+              <input type="file" class="custom-file-input" multiple formControlName="importFile" id="importFile"
+                (change)="onFileChange($event)" />
+            </div>
+          </div>
+          <div class="card">
+          <div class="table-container">
+            <table mat-table class="table" [dataSource]="dataSource">
+                <!-- Position Column -->
+                <ng-container matColumnDef="index">
+                  <th mat-header-cell *matHeaderCellDef> No. </th>
+                  <td mat-cell *matCellDef="let element; let i = index;">{{i+1}}</td>
+                </ng-container>
+                
+              <ng-container matColumnDef="socialSecurityNumber">
+                <th mat-header-cell *matHeaderCellDef > Social Security Number </th>
+                <td mat-cell *matCellDef="let element"> {{element.socialSecurityNumber}} </td>
+              </ng-container>
+            
+              <!-- Position Column -->
+              <ng-container matColumnDef="dateOfBirth">
+                <th mat-header-cell *matHeaderCellDef> Date of Birth </th>
+                <td mat-cell *matCellDef="let element"> {{element.dateOfBirth | date:'MM/dd/yyyy'}} </td>
+              </ng-container>
+            
+              <!-- Symbol Column -->
+              <ng-container matColumnDef="telephoneNumber">
+                <th mat-header-cell *matHeaderCellDef> Telephone Number </th>
+                <td mat-cell *matCellDef="let element"> {{element.telephoneNumber}} </td>
+              </ng-container>
+             <!-- Name Column -->
+             <ng-container matColumnDef="claimantFirstName">
+              <th mat-header-cell *matHeaderCellDef> Claimant First Name </th>
+              <td mat-cell *matCellDef="let element"> {{element.claimantFirstName}} </td>
+            </ng-container>
+               <!-- Name Column -->
+               <ng-container matColumnDef="claimantMiddleName">
+                <th mat-header-cell *matHeaderCellDef> Claimant Middle Name </th>
+                <td mat-cell *matCellDef="let element"> {{element.claimantMiddleName}} </td>
+              </ng-container>
+                 <!-- Name Column -->
+             <ng-container matColumnDef="claimantLastName">
+              <th mat-header-cell *matHeaderCellDef> Claimant Last Name </th>
+              <td mat-cell *matCellDef="let element"> {{element.claimantLastName}} </td>
+            </ng-container>
+   <!-- Name Column -->
+   <ng-container matColumnDef="claimantSuffix" >
+    <th mat-header-cell *matHeaderCellDef> Claimant Suffix </th>
+    <td mat-cell *matCellDef="let element"> {{element.claimantSuffix}} </td>
+  </ng-container>
+            
+
+                 <!-- Position Column -->
+                 <ng-container matColumnDef="gender">
+                  <th mat-header-cell *matHeaderCellDef> Gender </th>
+                  <td mat-cell *matCellDef="let element"> {{element.gender}} </td>
+                </ng-container>
+
+                   <!-- Position Column -->
+                   <ng-container matColumnDef="genderCode">
+                    <th mat-header-cell *matHeaderCellDef> Gender Code</th>
+                    <td mat-cell *matCellDef="let element"> {{element.genderCode}} </td>
+                  </ng-container>
+              
+               <!-- Occupation Column -->
+                <ng-container matColumnDef="occupation">
+                  <th mat-header-cell *matHeaderCellDef> Occupation </th>
+                  <td mat-cell *matCellDef="let element"> {{element.occupation}} </td>
+                </ng-container>
+              
+             
+                <ng-container matColumnDef="mailingStreetAddress">
+                  <th mat-header-cell *matHeaderCellDef> Mailing Address </th>
+                  <td mat-cell *matCellDef="let element"> {{element.mailingStreetAddress}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="mailingCity">
+                  <th mat-header-cell *matHeaderCellDef> City </th>
+                  <td mat-cell *matCellDef="let element"> {{element.mailingCity}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="mailingState">
+                  <th mat-header-cell *matHeaderCellDef> State </th>
+                  <td mat-cell *matCellDef="let element"> {{element.mailingState}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="mailingStateCode">
+                  <th mat-header-cell *matHeaderCellDef> State Code </th>
+                  <td mat-cell *matCellDef="let element"> {{element.mailingStateCode}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="zipCode">
+                  <th mat-header-cell *matHeaderCellDef> Zipcode </th>
+                  <td mat-cell *matCellDef="let element"> {{element.zipCode}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="citizen">
+                  <th mat-header-cell *matHeaderCellDef> Citizen </th>
+                  <td mat-cell *matCellDef="let element"> {{element.citizen}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="ethnicity">
+                  <th mat-header-cell *matHeaderCellDef> Ethnicity </th>
+                  <td mat-cell *matCellDef="let element"> {{element.ethnicity}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="race">
+                  <th mat-header-cell *matHeaderCellDef> Race </th>
+                  <td mat-cell *matCellDef="let element"> {{element.race}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="handicap">
+                  <th mat-header-cell *matHeaderCellDef> Handicap </th>
+                  <td mat-cell *matCellDef="let element"> {{element.handicap}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="federalwithHolding">
+                  <th mat-header-cell *matHeaderCellDef> Federal with Holding </th>
+                  <td mat-cell *matCellDef="let element"> {{element.federalwithHolding}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="veteranStatus">
+                  <th mat-header-cell *matHeaderCellDef> Veteran Status </th>
+                  <td mat-cell *matCellDef="let element"> {{element.veteranStatus}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="education">
+                  <th mat-header-cell *matHeaderCellDef> Education </th>
+                  <td mat-cell *matCellDef="let element"> {{element.education}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="authorizedAlienNumber">
+                  <th mat-header-cell *matHeaderCellDef> Authorized Alien Number </th>
+                  <td mat-cell *matCellDef="let element"> {{element.authorizedAlienNumber}} </td>
+                </ng-container>
+                <ng-container matColumnDef="errorMessage">
+                    <th mat-header-cell *matHeaderCellDef> Error Message </th>
+                    <td mat-cell *matCellDef="let element"> {{element.errorMessage}} </td>
+                  </ng-container>
+
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="actions">
+                  <th mat-header-cell *matHeaderCellDef> Actions </th>
+                  <td mat-cell *matCellDef="let element"> 
+                    <button mat-icon-button matTooltip="Click to Edit" (click)="edit(element)" class="iconbutton" color="primary">
+                      <mat-icon aria-label="Edit">edit</mat-icon>
+                    </button> 
+                    <!-- <button mat-icon-button matTooltip="Click to Delete" (click)="delete(element)" class="iconbutton" color="primary">
+                      <mat-icon aria-label="delete">delete</mat-icon>
+                    </button>  -->
+                    <button mat-icon-button (click)="delete(element)">
+                      <mat-icon mat-icon-button color="warn">delete</mat-icon>
+                    </button>
+                   </td>
+                </ng-container>
+                <!-- <ng-container matColumnDef="actions">
+                  <th mat-header-cell *matHeaderCellDef> Actions </th>
+                  <td mat-cell *matCellDef="let element"> 
+                    <button mat-icon-button matTooltip="Click to Edit" (click)="edit(element)" class="iconbutton" color="primary">
+                      <mat-icon aria-label="Edit">edit</mat-icon>
+                    </button> 
+                    <button mat-icon-button matTooltip="Click to Delete" (click)="delete(element)" class="iconbutton" color="primary">
+                      <mat-icon aria-label="delete">delete</mat-icon>
+                    </button>  </td>
+                </ng-container>
+                 -->
+            
+              <tr mat-header-row *matHeaderRowDef="getDisplayedColumns();"></tr>
+              <tr mat-row *matRowDef="let row; columns: getDisplayedColumns();" [hidden]="row.validation !== true"></tr>
+              
+            </table>
+            <mat-paginator [pageSizeOptions]="[5, 10, 20, 50 ,100]" showFirstLastButtons></mat-paginator>
+
+          </div>
+        </div>
+          <br>
+          <br>
+          <div class="container-auth-form-btn" style="text-align: center;">
+            <button mat-flat-button color="primary" type="submit" style="margin-right:  20px;" (click)="onSubmit()">
+              <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-check': !isLoading}"></i>
+              {{button}}
+            </button>
+            <button color="primary" mat-flat-button (click)="onReset()">Cancel</button>
+          </div>
+        </form>
+      </div> 
+                  
+    
+    </div> 
+    </div>
+</div>    
+</section>
+              

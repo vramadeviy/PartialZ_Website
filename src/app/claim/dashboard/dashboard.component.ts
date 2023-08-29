@@ -4,6 +4,7 @@ import { PartialzService } from 'src/app/core/service/partialz.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateclaimComponent } from '../createclaim/createclaim.component';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-dashboard',
@@ -58,7 +59,7 @@ export class DashboardComponent {
     var authEmail = localStorage.getItem('email');
     if(authEmail!=null)
     {
-    this._partialzService.get<any>('https://localhost:7178/api/EmployeeDirectory/EmployeeDirectoryDetails?EmailID=' + authEmail).subscribe(
+    this._partialzService.get<any>(environment.apiUrl+'/Claim/ClaimDetails?EmailID=' + authEmail).subscribe(
       (data) => {
         {         
           this.dataSource = data;       

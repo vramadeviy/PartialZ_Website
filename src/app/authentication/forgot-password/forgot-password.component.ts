@@ -7,6 +7,7 @@ import {
 } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PartialzService } from 'src/app/core/service/partialz.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-forgot-password',
@@ -103,7 +104,7 @@ export class ForgotPasswordComponent implements OnInit {
     }
   }
   PasswordSend(body: any): void {
-    this._partialzService.post<any>('https://localhost:7178/api/Login/ForgetPassword', body).subscribe(
+    this._partialzService.post<any>(environment.apiUrl+'/Login/ForgetPassword', body).subscribe(
       (response) => {
         this.isLoading=true;
         this.button ="Processing";   

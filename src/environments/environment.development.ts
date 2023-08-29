@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'https://adol-partialsapi-dev.adoldevtest.appserviceenvironment.net/PartialsApi-Dev',
+  apiUrl: 'https://localhost:7178/api',
+ // apiUrl: 'https://adol-partialsapi-dev.adoldevtest.appserviceenvironment.net/PartialsApi-Dev/api',
 };
 
 /*

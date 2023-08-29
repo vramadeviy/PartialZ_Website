@@ -1,17 +1,10 @@
-import { Component, OnInit,Inject,Input } from '@angular/core';
-import {Observable, zip} from 'rxjs';
-import { FormBuilder, FormGroup, Validators,AbstractControl } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import {Observable} from 'rxjs';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PartialzService } from 'src/app/core/service/partialz.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatDialog } from '@angular/material/dialog';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { environment } from 'src/environments/environment';
 
-
-export interface OtherWageDto {
-  otherwageId: number;
-  code: string;
-}
 export interface StatesDto {
   stateId: number;
   stateCode: string;
@@ -28,8 +21,12 @@ export interface WithHoldingDto {
   withholdingsId: number;
   code: string;
 }
+export interface OtherWageDto {
+  otherwageId: number;
+  code: string;
+}
 export interface NameSuffixDto {
-  nameSuffixId: number;
+  namesuffixId: number;
   code: string;
 }
 export interface HandicapDto {
@@ -52,18 +49,12 @@ export interface EducationDto {
   educationId: number;
   code: string;
 }
-export interface ErrorDto
-{
-  SSN: number;
-  ErrorMessage:string;
-
-}
 @Component({
-  selector: 'app-createclaim',
-  templateUrl: './createclaim.component.html',
-  styleUrls: ['./createclaim.component.scss']
+  selector: 'app-modifyclaim',
+  templateUrl: './modifyclaim.component.html',
+  styleUrls: ['./modifyclaim.component.scss']
 })
-export class CreateclaimComponent {
+export class ModifyclaimComponent {
 
   registerForm!: FormGroup;
   submitted = false;
@@ -91,32 +82,14 @@ value = 0;
 isonLoading=false;
 loading = true;
 selectedCitizen: string="";
-minDate = new Date();
-  maxDate = new Date();
-  rawPhoneNumber: string = ''; // For storing the raw input
-  formattedPhoneNumber: string = ''; // For storing the formatted value
-  rawSSNumber: string = ''; // For storing the raw input
-  formattedSSNumber: string = ''; // For storing the formatted value
-  selectedDate:Date;
-  constructor(private _formBuilder: FormBuilder,
-    private readonly _partialzService: PartialzService,
-    private _snackBar: MatSnackBar,
-    public _dialog: MatDialog,
-    private dialogRef: MatDialogRef<CreateclaimComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    @Inject(MAT_DIALOG_DATA) public errorData: any,
-    ) {  
-      const today = new Date();
-  this.maxDate = new Date(today.getFullYear() - 16, today.getMonth(), today.getDate(), 0, 0, 0); // Set time to midnight
-  this.minDate = new Date(today.getFullYear() - 150, today.getMonth(), today.getDate(), 0, 0, 0); // Set time to midnight
-  this.selectedDate = this.minDate;
-      }
+  constructor(private _formBuilder: FormBuilder,private readonly _partialzService: PartialzService,
+   private _snackBar: MatSnackBar) { }
 
   ngOnInit() {
      this.bindStates();
     this.bindDropDowns();
     this.ClaimFormGroup = this._formBuilder.group({
-       ssnCtrl: ['', [Validators.required]],           
+       ssnCtrl: ['', [Validators.required, Validators.minLength(15)]],           
        employeraccountnumberCtrl: ['',Validators.required],
        claimantFirstNameCtrl: ['',Validators.required],
        claimantMICtrl : ['',Validators.required],
@@ -186,14 +159,10 @@ return true;
         });
     }
     onSubmit() {
-      this.submitted = true;
-      this.button = "Processing";
-      this.isLoading = true;
+        this.submitted = true;
         
         // stop here if form is invalid
-        if (this.ClaimFormGroup.invalid) {
-          this.button = "Submit";          
-              this.isLoading = false;
+        if (this.registerForm.invalid) {
             return;
         }
         else
@@ -346,7 +315,6 @@ return true;
    }
 
     ClaimSubmission(body : any): void {
-      
      this._partialzService.post<any>(environment.apiUrl+'/Claim/SaveClaim', body).subscribe(
        (response) => {
          if (response == 1) {      
@@ -396,18 +364,7 @@ return true;
        }
      );
    }
-   formatPhoneNumber() {
-    const digits = this.rawPhoneNumber.replace(/\D/g, ''); // Remove non-digits
-    const formatted = digits.replace(/(\d{3})(\d{3})(\d{4})/, '($1)-($2)-($3)');
-    this.formattedPhoneNumber = formatted;
-    this.rawPhoneNumber = formatted;
-  }
-  formatSSNumber() {
-    const digits = this.rawSSNumber.replace(/\D/g, ''); // Remove non-digits
-    const formatted = digits.replace(/(\d{3})(\d{2})(\d{4})/, '($1)-($2)-($3)');
-    this.formattedSSNumber = formatted;
-    this.rawSSNumber = formatted;
-  }
+   
     onReset() {
         this.submitted = false;
         this.ClaimFormGroup.reset();

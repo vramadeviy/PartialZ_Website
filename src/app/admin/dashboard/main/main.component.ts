@@ -1,6 +1,7 @@
 import { Component,OnInit } from '@angular/core';
 import { PartialzService } from 'src/app/core/service/partialz.service';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
@@ -32,7 +33,7 @@ export class MainComponent implements OnInit {
     var authEmail = localStorage.getItem('email');
     if(authEmail!=null)
     {
-    this._partialzService.get<any>('https://localhost:7178/api/Employee/EmployeeDetails?EmailID=' + authEmail).subscribe(
+    this._partialzService.get<any>(environment.apiUrl +'/Employee/EmployeeDetails?EmailID=' + authEmail).subscribe(
       (data) => {
         {         
           this.dataSource = data;       

@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 import { PartialzService } from 'src/app/core/service/partialz.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-signup',
@@ -88,7 +89,7 @@ export class SignupComponent implements OnInit {
     };
     
     //this.isProcessing=true;
-    this._partialzService.post<any>('https://localhost:7178/api/Employee', body).subscribe(
+    this._partialzService.post<any>(environment.apiUrl+'/Employee', body).subscribe(
       (data:any) => {
         this.isLoading=true;
         this.button ="Processing";    

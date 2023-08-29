@@ -1,4 +1,4 @@
-<h2 mat-dialog-title>Employee Directory</h2>
+<h2 mat-dialog-title>Claim</h2>
 <div mat-dialog-content class="mat-dialog-content">
     <mat-tab-group>
         <mat-tab label="manual">
@@ -11,7 +11,8 @@
                               <div class="col-xl-12col-lg-12 col-md-3 col-sm-3 mb-1">                                 
                               <mat-form-field class="example-full-width" appearance="outline">
                                 <mat-label>Social Security Number</mat-label>
-                                <input matInput type="text" placeholder="Social Security Number" formControlName="ssnCtrl" maxlength="15" (keypress)="numberOnly($event)"/>
+                                <input matInput type="text" placeholder="(000)-(00)-(0000)" (onChange)="changeValue($event)" [(ngModel)]="rawSSNumber" (input)="formatSSNumber()"
+                                 formControlName="ssnCtrl" maxlength="17" (keypress)="numberOnly($event)"/>
                                 <mat-error *ngIf="haserror('ssnCtrl','required')">
                                   Enter Social Security Number!
                                  </mat-error>
@@ -21,29 +22,27 @@
                               </mat-form-field>  
                             </div>
                             <div class="col-xl-12col-lg-12 col-md-3 col-sm-3 mb-1">
-                                <mat-form-field class="example-full-width" appearance="outline">
-                                    <mat-label>Date of Birth</mat-label>
-                                    <input matInput [matDatepicker]="picker" formControlName="dateofbirthCtrl">
-                                    <mat-hint>MM/DD/YYYY</mat-hint>
-                                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                                    <mat-datepicker #picker></mat-datepicker>  
-                                    <mat-error *ngIf="haserror('dateofbirthCtrl','required')">
-                                      Select Date of Birth!
-                                     </mat-error>        
-                                </mat-form-field>  
-                            </div>
-                            <div class="col-xl-12col-lg-12 col-md-3 col-sm-3 mb-1">
-                                <mat-form-field class="example-full-width" appearance="outline">
-                                    <mat-label>Telephone Number</mat-label>
-                                      <input   matInput type="text" placeholder="Telephone Number" formControlName="telephoneNumberCtrl" maxlength="10" (keypress)="numberOnly($event)" />
-                                      <mat-error *ngIf="haserror('telephoneNumberCtrl','required')">
-                                        Enter Social Security Number!
-                                       </mat-error>
-                                       <mat-error *ngIf="haserror('telephoneNumberCtrl','minlength')">
-                                         Please provide a valid Social Security Number
-                                       </mat-error>
-                                  </mat-form-field>
-                            </div>
+                              <mat-form-field class="example-full-width" appearance="outline">
+                                  <mat-label>Date of Birth</mat-label>
+                                  <input matInput [matDatepicker]="picker" datePickerFormat="MM/DD/YYYY" formControlName="dateofbirthCtrl" 
+                                   [min]="minDate" [max]="maxDate" [value]="selectedDate" >
+                                  <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                                  <mat-datepicker #picker></mat-datepicker>                                          
+                              </mat-form-field>  
+                          </div>
+                          <div class="col-xl-12col-lg-12 col-md-3 col-sm-3 mb-1">
+                            <mat-form-field class="example-full-width" appearance="outline">
+                                <mat-label>Telephone Number</mat-label>
+                                  <input   matInput type="text" placeholder="(000)-(000)-(0000)" formControlName="telephoneNumberCtrl" 
+                                  maxlength="18"  (keypress)="numberOnly($event)"  [(ngModel)]="rawPhoneNumber" (input)="formatPhoneNumber()"/>
+                                  <mat-error *ngIf="haserror('telephoneNumberCtrl','required')" >
+                                    Enter Telephone Number!
+                                   </mat-error>
+                                   <mat-error *ngIf="haserror('telephoneNumberCtrl','minlength')">
+                                     Please provide a valid Telephone Number
+                                   </mat-error>
+                              </mat-form-field>
+                        </div>
                             </div>
                           <div class="row"  style="justify-content: center;">
                            
@@ -68,20 +67,20 @@
                             </div>
                           
                             <div class="col-xl-12col-lg-12 col-md-1 col-sm-1 mb-1">
-                                  <mat-form-field class="example-full-width" appearance="outline">
-                                    <mat-select 
-                                    placeholder="Suffix" formControlName="claimantsuffixCtrl" 
-                                    name="cs"  >                         
-                                    <mat-option *ngFor="let cs of namesuffixs" [value]="cs.namesuffixId">
-                                      {{cs.code}}
-                                    </mat-option>
-                                    </mat-select>
-                                    <mat-error *ngIf="haserror('claimantsuffixCtrl','required')">
-                                      Enter Claimant Suffix!
-                                     </mat-error>
-                                </mat-form-field> 
-                                  
-                            </div>
+                              <mat-form-field class="example-full-width" appearance="outline">
+                                <mat-select 
+                                placeholder="Suffix" formControlName="claimantsuffixCtrl" 
+                                name="cs"  >                         
+                                <mat-option *ngFor="let cs of namesuffixs" [value]="cs.nameSuffixId">
+                                  {{cs.code}}
+                                </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="haserror('claimantsuffixCtrl','required')">
+                                  Enter Claimant Suffix!
+                                 </mat-error>
+                            </mat-form-field> 
+                              
+                        </div>
                             <div class="col-xl-12col-lg-12 col-md-2 col-sm-2 mb-1">
                                 <mat-form-field style="width: 100%;" appearance="outline" >
                                     <mat-label>Claimant Last Name</mat-label>
@@ -224,7 +223,7 @@
                                 <mat-select 
                                 placeholder="Federal with Holdings" formControlName="federalwithHoldingsCtrl"
                                 name="withholdings"  >                         
-                                <mat-option *ngFor="let wh of withholdings" [value]="wh">
+                                <mat-option *ngFor="let wh of withholdings" [value]="wh.withholdingsId">
                                   {{wh.code}}
                                 </mat-option>
                                 </mat-select>

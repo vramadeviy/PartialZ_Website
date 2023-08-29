@@ -2,499 +2,325 @@
 
 
 <div mat-dialog-content class="mat-dialog-content">
+      
+           <mat-tab-group >
+              <mat-tab label="manual" >
+                  <div class="container" novalidate> 
+                    <div *ngIf="isonLoading;">
 
-  <mat-tab-group>
-    <mat-tab label="manual">
-      <div class="container" novalidate>
-        <div *ngIf="isonLoading;">
-
-          <div class="spinner__loading">
-            <div>
-              <mat-progress-spinner diameter="60" [value]="value" mode="determinate">
-              </mat-progress-spinner>
-            </div>
+                      <div class="spinner__loading">
+                        <div>
+                          <mat-progress-spinner
+                            diameter="60"
+                            [value]="value"
+                            mode="determinate">
+                            </mat-progress-spinner>
+                        </div>
+                      </div>
+                    </div>       
+                      <form  [formGroup]="employeeDirectoryFormGroup">   
+                          <div class="card">
+                              <div class="body">   
+                                  <p style="color: blue;">Personal Identification Information:  </p> 
+                                  <div class="row"  style="justify-content: center;">
+                                    <div class="col-xl-12col-lg-12 col-md-3 col-sm-3 mb-1">                                 
+                                    <mat-form-field class="example-full-width" appearance="outline">
+                                      <mat-label>Social Security Number</mat-label>
+                                      <input matInput type="text" placeholder="000-00-0000"
+                                       formControlName="ssnCtrl" maxlength="17" [(ngModel)]="rawSSNumber" (input)="formatSSNumber()" (keypress)="numberOnly($event)"/>
+                                      <mat-error *ngIf="haserror('ssnCtrl','required')">
+                                        Enter Social Security Number!
+                                       </mat-error>
+                                       <mat-error *ngIf="haserror('ssnCtrl','minlength')">
+                                         Please provide a valid Social Security Number
+                                       </mat-error>
+                                    </mat-form-field>  
+                                  </div>
+                                  <div class="col-xl-12col-lg-12 col-md-3 col-sm-3 mb-1">
+                                      <mat-form-field class="example-full-width" appearance="outline">
+                                          <mat-label>Date of Birth</mat-label>
+                                          <input matInput [matDatepicker]="picker" datePickerFormat="MM/DD/YYYY" formControlName="dateofbirthCtrl" 
+                                           [min]="minDate" [max]="maxDate" [value]="selectedDate" >
+                                          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                                          <mat-datepicker #picker></mat-datepicker>                                          
+                                      </mat-form-field>  
+                                  </div>
+                                  <div class="col-xl-12col-lg-12 col-md-3 col-sm-3 mb-1">
+                                      <mat-form-field class="example-full-width" appearance="outline">
+                                          <mat-label>Telephone Number</mat-label>
+                                            <input   matInput type="text" placeholder="(000)-(000)-(0000)" formControlName="telephoneNumberCtrl" 
+                                            maxlength="18"  (keypress)="numberOnly($event)"  [(ngModel)]="rawPhoneNumber" (input)="formatPhoneNumber()"/>
+                                            <mat-error *ngIf="haserror('telephoneNumberCtrl','required')" >
+                                              Enter Telephone Number!
+                                             </mat-error>
+                                             <mat-error *ngIf="haserror('telephoneNumberCtrl','minlength')">
+                                               Please provide a valid Telephone Number
+                                             </mat-error>
+                                        </mat-form-field>
+                                  </div>
+                                  </div>
+                                <div class="row"  style="justify-content: center;">
+                                 
+                                  <div class="col-xl-12col-lg-12 col-md-3 col-sm-3 mb-1">
+                                      <mat-form-field class="example-full-width" appearance="outline">
+                                          <mat-label>Claimant First Name</mat-label>
+                                            <input   matInput type="text" placeholder="Claimant First Name" formControlName="claimantFirstNameCtrl" />
+                                            <mat-error *ngIf="haserror('claimantFirstNameCtrl','required')">
+                                              Enter Claimant First Name!
+                                             </mat-error>
+                                        </mat-form-field>  
+                                  </div>
+                              
+                                  <div class="col-xl-12col-lg-12 col-md-3 col-sm-3 mb-1">
+                                      <mat-form-field class="example-full-width" appearance="outline" >
+                                          <mat-label>Claimant Middle Name</mat-label>
+                                          <input matInput type="text" placeholder="Claimant Middle Name" formControlName="claimantMICtrl" />
+                                          <mat-error *ngIf="haserror('claimantMICtrl','required')">
+                                            Enter Claimant Middle Name!
+                                           </mat-error>
+                                        </mat-form-field> 
+                                  </div>
+                               
+                                  <div class="col-xl-12col-lg-12 col-md-2 col-sm-2 mb-1">
+                                      <mat-form-field style="width: 100%;" appearance="outline" >
+                                          <mat-label>Claimant Last Name</mat-label>
+                                          <input matInput type="text" placeholder="Claimant Last Name" formControlName="claimantlastnameCtrl" />
+                                          <mat-error *ngIf="haserror('claimantlastnameCtrl','required')">
+                                            Enter Claimant Last Name!
+                                           </mat-error>
+                                        </mat-form-field> 
+                                  </div>
+                                  
+                                  <div class="col-xl-12col-lg-12 col-md-1 col-sm-1 mb-1">
+                                    <mat-form-field class="example-full-width" appearance="outline">
+                                      <mat-select 
+                                      placeholder="Suffix" formControlName="claimantsuffixCtrl" 
+                                      name="cs"  >                         
+                                      <mat-option *ngFor="let cs of namesuffixs" [value]="cs.nameSuffixId">
+                                        {{cs.code}}
+                                      </mat-option>
+                                      </mat-select>
+                                      <mat-error *ngIf="haserror('claimantsuffixCtrl','required')">
+                                        Enter Claimant Suffix!
+                                       </mat-error>
+                                  </mat-form-field> 
+                                    
+                              </div>
+                                </div>
+                              
+                                <div class="row"  style="justify-content: center;">
+                                  <div class="col-xl-12col-lg-12 col-md-3 col-sm-3 mb-1">
+                                      <mat-form-field class="example-full-width" appearance="outline">
+                                            <mat-label>Mailing Street Address</mat-label>
+                                              <input   matInput type="text" placeholder="Mailing Street Address" formControlName="mailingstreetaddressCtrl" />
+                                              <mat-error *ngIf="haserror('mailingstreetaddressCtrl','required')">
+                                                Enter Mailing Street Address!
+                                               </mat-error>
+                                          </mat-form-field>   
+                                    </div>
+                                  <div class="col-xl-12col-lg-12 col-md-3 col-sm-3 mb-1">
+                                    <mat-form-field class="example-full-width" appearance="outline">
+                                      <mat-label>Mailing City</mat-label>
+                                                <input   matInput type="text" placeholder="Mailing City" formControlName="mailingcityCtrl" />
+                                                <mat-error *ngIf="haserror('mailingcityCtrl','required')">
+                                                  Enter Mailing City!
+                                                 </mat-error>
+                                            </mat-form-field>
+                                  </div>
+                                  <div class="col-xl-12col-lg-12 col-md-1 col-sm-1 mb-1">
+                                    <mat-form-field style="width: 100%;" appearance="outline">
+                                      <mat-label> State</mat-label>
+                                      <mat-select 
+                                      placeholder="State" formControlName="mailingstateCtrl" 
+                                      name="st"  >                         
+                                      <mat-option *ngFor="let st of states" [value]="st.stateId">
+                                        {{st.stateCode}}
+                                      </mat-option>
+                                      </mat-select>
+                                      <mat-error *ngIf="haserror('mailingstateCtrl','required')">
+                                        Select Mailing State!
+                                       </mat-error>
+                                  </mat-form-field> 
+                                  </div>
+                                  <div class="col-xl-12col-lg-12 col-md-2 col-sm-2 mb-1">
+                                    <mat-form-field class="example-full-width" appearance="outline">
+                                      <mat-label>Zip code</mat-label>
+                                      <input matInput type="text" placeholder="Zip Code" maxlength="5"  formControlName="zipCodeCtrl" />
+                                      <mat-error *ngIf="haserror('zipCodeCtrl','required')">
+                                        Enter Zip Code!
+                                       </mat-error>
+                                  </mat-form-field> 
+                                  </div>
+                                 
+                                </div>
+                                <p style="color: blue;">Demographics: </p> 
+                                <div class="row"  style="justify-content: center;">
+                                  <div class="col-xl-12col-lg-12 col-md-3 col-sm-3 mb-1">
+                                    <mat-form-field class="example-full-width" appearance="outline">
+                                      <mat-select 
+                                      placeholder="Gender" formControlName="genderCtrl" 
+                                      name="gender"  >                         
+                                      <mat-option *ngFor="let gen of genders" [value]="gen.genderId">
+                                        {{gen.code}}
+                                      </mat-option>
+                                      </mat-select>
+                                      <mat-error *ngIf="haserror('genderCtrl','required')">
+                                        Select Gender!
+                                       </mat-error>
+                                  </mat-form-field> 
+                                    </div>
+                                    <div class="col-xl-12col-lg-12 col-md-3 col-sm-3 mb-1">
+                                      <mat-form-field class="example-full-width" appearance="outline">
+                                        <mat-label>Handicap</mat-label>
+                                        <mat-select 
+                                        placeholder="Handicap" formControlName="handicapCtrl"
+                                        name="handicaps"  >                         
+                                        <mat-option *ngFor="let hc of handicaps" [value]="hc.handicapId">
+                                          {{hc.code}}
+                                        </mat-option>
+                                        </mat-select>
+                                        <mat-error *ngIf="haserror('handicapCtrl','required')">
+                                          Select Handicap!
+                                         </mat-error>
+                                    </mat-form-field> 
+                                    </div>
+                                    <div class="col-xl-12col-lg-12 col-md-3 col-sm-3 mb-1">
+                                      <mat-form-field class="example-full-width" appearance="outline">
+                                        <mat-label>Veteran Status</mat-label>
+                                        <mat-select 
+                                        placeholder="Veteran Status" formControlName="veteranStatusCtrl"
+                                        name="veterans"  >                         
+                                        <mat-option *ngFor="let vt of veterans" [value]="vt.veteranId">
+                                          {{vt.code}}
+                                        </mat-option>
+                                        </mat-select>
+                                        <mat-error *ngIf="haserror('veteranStatusCtrl','required')">
+                                          Select Veteran Status!
+                                         </mat-error>
+                                    </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="row"  style="justify-content: center;">
+                                  
+                                  <div class="col-xl-12col-lg-12 col-md-3 col-sm-3 mb-1">
+                                    <mat-form-field class="example-full-width" appearance="outline">
+                                      <mat-label>Race</mat-label>
+                                      <mat-select 
+                                      placeholder="Race" formControlName="raceCtrl"
+                                      name="races"  >                         
+                                      <mat-option *ngFor="let rc of races" [value]="rc.raceId">
+                                        {{rc.code}}
+                                      </mat-option>
+                                      </mat-select>
+                                      <mat-error *ngIf="haserror('raceCtrl','required')">
+                                        Select Race!
+                                       </mat-error>
+                                  </mat-form-field>
+                                  </div>
+                                  <div class="col-xl-12col-lg-12 col-md-3 col-sm-3 mb-1">
+                                    <mat-form-field class="example-full-width" appearance="outline">
+                                      <mat-label>Ethnicity</mat-label>
+                                      <mat-select 
+                                      placeholder="Ethnicity" formControlName="ethnicityCtrl"
+                                      name="ethnicity"  >                         
+                                      <mat-option *ngFor="let et of ethnicity" [value]="et.ethnicityId">
+                                        {{et.code}}
+                                      </mat-option>
+                                      </mat-select>
+                                      <mat-error *ngIf="haserror('ethnicityCtrl','required')">
+                                        Select Ethnicity!
+                                       </mat-error>
+                                  </mat-form-field>
+                                  </div>
+                                  <div class="col-xl-12col-lg-12 col-md-3 col-sm-3 mb-1">
+                                    <mat-form-field class="example-full-width" appearance="outline">
+                                      <mat-label>Federal with Holdings</mat-label>
+                                      <mat-select 
+                                      placeholder="Federal with Holdings" formControlName="federalwithHoldingsCtrl"
+                                      name="withholdings"  >                         
+                                      <mat-option *ngFor="let wh of withholdings" [value]="wh.withholdingsId">
+                                        {{wh.code}}
+                                      </mat-option>
+                                      </mat-select>
+                                      <mat-error *ngIf="haserror('federalwithHoldingsCtrl','required')">
+                                        Select Federal with Holdings!
+                                       </mat-error>
+                                  </mat-form-field>
+                                  </div>
+                                
+                                </div>
+                                <div class="row"  style="justify-content: center;">
+                                  <div class="col-xl-12col-lg-12 col-md-3 col-sm-3 mb-1">
+                                      <mat-form-field class="example-full-width" appearance="outline">
+                                        <mat-label>Citizen</mat-label>
+                                        <mat-select 
+                                        placeholder="Citizen" formControlName="citizenCtrl" (selectionChange)="onChange($event)"
+                                        name="citizens"  >                         
+                                        <mat-option *ngFor="let ct of citizens" [value]="ct.citizenId">
+                                          {{ct.code}}
+                                        </mat-option>
+                                        </mat-select>
+                                        <mat-error *ngIf="haserror('citizenCtrl','required')">
+                                          Select Citizen!
+                                         </mat-error>
+                                    </mat-form-field>
+                                    </div>
+                                    <div class="col-xl-12col-lg-12 col-md-3 col-sm-3 mb-1" *ngIf="selectedCitizen == 'NO'">
+                                      <mat-form-field class="example-full-width" appearance="outline" >
+                                          <mat-label>Authorized Alien Number</mat-label>
+                                            <input   matInput type="text" placeholder="Authorized Alien Number" maxlength="10" formControlName="authorizedalienNumberCtrl" />
+                                            <mat-error *ngIf="haserror('authorizedalienNumberCtrl','required')">
+                                              Enter Claimant Last Name!
+                                             </mat-error>
+                                        </mat-form-field>  
+                                  </div>
+                                  <div class="col-xl-12col-lg-12 col-md-3 col-sm-3 mb-1" *ngIf="selectedCitizen !== 'NO'"></div>
+                                  <div class="col-xl-12col-lg-12 col-md-3 col-sm-3 mb-1"></div>
+                                </div>
+                                <div class="row"  style="justify-content: center;">
+                                
+                                  <div class="col-xl-12col-lg-12 col-md-3 col-sm-3 mb-1">
+                                    <mat-form-field class="example-full-width" appearance="outline">
+                                      <mat-label>Education</mat-label>
+                                              <mat-select 
+                                              placeholder="Education" formControlName="educationCtrl"
+                                              name="educations"  >                         
+                                              <mat-option *ngFor="let ed of educations" [value]="ed.educationId">
+                                                {{ed.code}}
+                                              </mat-option>
+                                              </mat-select>
+                                              <mat-error *ngIf="haserror('educationCtrl','required')">
+                                                Select Education!
+                                               </mat-error>
+                                          </mat-form-field>
+                                  </div>
+                                  <div class="col-xl-12col-lg-12 col-md-3 col-sm-3 mb-1">
+                                    <mat-form-field class="example-full-width" appearance="outline">
+                                      <mat-label>Occupation</mat-label>
+                                                <input   matInput type="text" placeholder="Occupation" formControlName="occupationCtrl" />
+                                            </mat-form-field>
+                                  </div>
+                                  <div class="col-xl-12col-lg-12 col-md-3 col-sm-3 mb-1"></div>
+                                </div>
+                                <div class="container-auth-form-btn" style="text-align: center;">
+                                  <button mat-flat-button color="primary" type="submit" style="margin-right:  20px;" (click)="onSubmit()">
+                                    <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-check': !isLoading}"></i>
+                    {{button}}                                  
+                                   </button>
+                                  <button mat-flat-button color="primary" (click)="onReset()" style="margin-right:  20px;">Clear</button>
+                                  <button color="primary" mat-flat-button mat-dialog-close >Close</button>
+                            </div>
+        
+                          </div>
+                        </div>
+                               
+                            
+                        </form>
+                      </div>
+              </mat-tab> 
+            
+           
+            </mat-tab-group>  
+          
           </div>
-        </div>
-        <form [formGroup]="employeeDirectoryFormGroup">
-          <div class="card">
-            <div class="body">
-              <p style="color: blue;">Personal Identification Information: </p>
-              <div class="row" style="justify-content: center;">
-                <div class="col-xl-12col-lg-12 col-md-3 col-sm-3 mb-1">
-                  <mat-form-field class="example-full-width" appearance="outline">
-                    <mat-label>Social Security Number</mat-label>
-                    <input matInput type="text" placeholder="Social Security Number" formControlName="ssnCtrl"
-                      maxlength="9" (keypress)="numberOnly($event)" />
-                    <mat-error *ngIf="haserror('ssnCtrl','required')">
-                      Enter Social Security Number!
-                    </mat-error>
-                    <mat-error *ngIf="haserror('ssnCtrl','minlength')">
-                      Please provide a valid Social Security Number
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-                <div class="col-xl-12col-lg-12 col-md-3 col-sm-3 mb-1">
-                  <mat-form-field class="example-full-width" appearance="outline">
-                    <mat-label>Date of Birth</mat-label>
-                    <input matInput [matDatepicker]="picker" formControlName="dateofbirthCtrl">
-                    <mat-hint>MM/DD/YYYY</mat-hint>
-                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                    <mat-datepicker #picker></mat-datepicker>
-
-                  </mat-form-field>
-                </div>
-                <div class="col-xl-12col-lg-12 col-md-3 col-sm-3 mb-1">
-                  <mat-form-field class="example-full-width" appearance="outline">
-                    <mat-label>Telephone Number</mat-label>
-                    <input matInput type="text" placeholder="Telephone Number" formControlName="telephoneNumberCtrl"
-                      maxlength="10" (keypress)="numberOnly($event)" />
-                    <mat-error *ngIf="haserror('telephoneNumberCtrl','required')">
-                      Enter Social Security Number!
-                    </mat-error>
-                    <mat-error *ngIf="haserror('telephoneNumberCtrl','minlength')">
-                      Please provide a valid Social Security Number
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-              </div>
-              <div class="row" style="justify-content: center;">
-
-                <div class="col-xl-12col-lg-12 col-md-3 col-sm-3 mb-1">
-                  <mat-form-field class="example-full-width" appearance="outline">
-                    <mat-label>Claimant First Name</mat-label>
-                    <input matInput type="text" placeholder="Claimant First Name"
-                      formControlName="claimantFirstNameCtrl" />
-                    <mat-error *ngIf="haserror('claimantFirstNameCtrl','required')">
-                      Enter Claimant First Name!
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-
-                <div class="col-xl-12col-lg-12 col-md-3 col-sm-3 mb-1">
-                  <mat-form-field class="example-full-width" appearance="outline">
-                    <mat-label>Claimant Middle Name</mat-label>
-                    <input matInput type="text" placeholder="Claimant Middle Name" formControlName="claimantMICtrl" />
-                    <mat-error *ngIf="haserror('claimantMICtrl','required')">
-                      Enter Claimant Middle Name!
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-
-                <div class="col-xl-12col-lg-12 col-md-2 col-sm-2 mb-1">
-                  <mat-form-field style="width: 100%;" appearance="outline">
-                    <mat-label>Claimant Last Name</mat-label>
-                    <input matInput type="text" placeholder="Claimant Last Name"
-                      formControlName="claimantlastnameCtrl" />
-                    <mat-error *ngIf="haserror('claimantlastnameCtrl','required')">
-                      Enter Claimant Last Name!
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-
-                <div class="col-xl-12col-lg-12 col-md-1 col-sm-1 mb-1">
-                  <mat-form-field class="example-full-width" appearance="outline">
-                    <mat-select placeholder="Suffix" formControlName="claimantsuffixCtrl" name="cs">
-                      <mat-option *ngFor="let cs of namesuffixs" [value]="cs.nameSuffixId">
-                        {{cs.code}}
-                      </mat-option>
-                    </mat-select>
-                    <mat-error *ngIf="haserror('claimantsuffixCtrl','required')">
-                      Enter Claimant Suffix!
-                    </mat-error>
-                  </mat-form-field>
-
-                </div>
-              </div>
-
-              <div class="row" style="justify-content: center;">
-                <div class="col-xl-12col-lg-12 col-md-3 col-sm-3 mb-1">
-                  <mat-form-field class="example-full-width" appearance="outline">
-                    <mat-label>Mailing Street Address</mat-label>
-                    <input matInput type="text" placeholder="Mailing Street Address"
-                      formControlName="mailingstreetaddressCtrl" />
-                    <mat-error *ngIf="haserror('mailingstreetaddressCtrl','required')">
-                      Enter Mailing Street Address!
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-                <div class="col-xl-12col-lg-12 col-md-3 col-sm-3 mb-1">
-                  <mat-form-field class="example-full-width" appearance="outline">
-                    <mat-label>Mailing City</mat-label>
-                    <input matInput type="text" placeholder="Mailing City" formControlName="mailingcityCtrl" />
-                    <mat-error *ngIf="haserror('mailingcityCtrl','required')">
-                      Enter Mailing City!
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-                <div class="col-xl-12col-lg-12 col-md-1 col-sm-1 mb-1">
-                  <mat-form-field style="width: 100%;" appearance="outline">
-                    <mat-label> State</mat-label>
-                    <mat-select placeholder="State" formControlName="mailingstateCtrl" name="st">
-                      <mat-option *ngFor="let st of states" [value]="st.stateId">
-                        {{st.stateCode}}
-                      </mat-option>
-                    </mat-select>
-                    <mat-error *ngIf="haserror('mailingstateCtrl','required')">
-                      Select Mailing State!
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-                <div class="col-xl-12col-lg-12 col-md-2 col-sm-2 mb-1">
-                  <mat-form-field class="example-full-width" appearance="outline">
-                    <mat-label>Zip code</mat-label>
-                    <input matInput type="text" placeholder="Zip Code" maxlength="5" formControlName="zipCodeCtrl" />
-                    <mat-error *ngIf="haserror('zipCodeCtrl','required')">
-                      Enter Zip Code!
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-
-              </div>
-              <p style="color: blue;">Demographics: </p>
-              <div class="row" style="justify-content: center;">
-                <div class="col-xl-12col-lg-12 col-md-3 col-sm-3 mb-1">
-                  <mat-form-field class="example-full-width" appearance="outline">
-                    <mat-select placeholder="Gender" formControlName="genderCtrl" name="gender">
-                      <mat-option *ngFor="let gen of genders" [value]="gen.genderId">
-                        {{gen.code}}
-                      </mat-option>
-                    </mat-select>
-                    <mat-error *ngIf="haserror('genderCtrl','required')">
-                      Select Gender!
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-                <div class="col-xl-12col-lg-12 col-md-3 col-sm-3 mb-1">
-                  <mat-form-field class="example-full-width" appearance="outline">
-                    <mat-label>Handicap</mat-label>
-                    <mat-select placeholder="Handicap" formControlName="handicapCtrl" name="handicaps">
-                      <mat-option *ngFor="let hc of handicaps" [value]="hc.handicapId">
-                        {{hc.code}}
-                      </mat-option>
-                    </mat-select>
-                    <mat-error *ngIf="haserror('handicapCtrl','required')">
-                      Select Handicap!
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-                <div class="col-xl-12col-lg-12 col-md-3 col-sm-3 mb-1">
-                  <mat-form-field class="example-full-width" appearance="outline">
-                    <mat-label>Veteran Status</mat-label>
-                    <mat-select placeholder="Veteran Status" formControlName="veteranStatusCtrl" name="veterans">
-                      <mat-option *ngFor="let vt of veterans" [value]="vt.veteranId">
-                        {{vt.code}}
-                      </mat-option>
-                    </mat-select>
-                    <mat-error *ngIf="haserror('veteranStatusCtrl','required')">
-                      Select Veteran Status!
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-              </div>
-              <div class="row" style="justify-content: center;">
-
-                <div class="col-xl-12col-lg-12 col-md-3 col-sm-3 mb-1">
-                  <mat-form-field class="example-full-width" appearance="outline">
-                    <mat-label>Race</mat-label>
-                    <mat-select placeholder="Race" formControlName="raceCtrl" name="races">
-                      <mat-option *ngFor="let rc of races" [value]="rc.raceId">
-                        {{rc.code}}
-                      </mat-option>
-                    </mat-select>
-                    <mat-error *ngIf="haserror('raceCtrl','required')">
-                      Select Race!
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-                <div class="col-xl-12col-lg-12 col-md-3 col-sm-3 mb-1">
-                  <mat-form-field class="example-full-width" appearance="outline">
-                    <mat-label>Ethnicity</mat-label>
-                    <mat-select placeholder="Ethnicity" formControlName="ethnicityCtrl" name="ethnicity">
-                      <mat-option *ngFor="let et of ethnicity" [value]="et.ethnicityId">
-                        {{et.code}}
-                      </mat-option>
-                    </mat-select>
-                    <mat-error *ngIf="haserror('ethnicityCtrl','required')">
-                      Select Ethnicity!
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-                <div class="col-xl-12col-lg-12 col-md-3 col-sm-3 mb-1">
-                  <mat-form-field class="example-full-width" appearance="outline">
-                    <mat-label>Federal with Holdings</mat-label>
-                    <mat-select placeholder="Federal with Holdings" formControlName="federalwithHoldingsCtrl"
-                      name="withholdings">
-                      <mat-option *ngFor="let wh of withholdings" [value]="wh.withholdingsId">
-                        {{wh.code}}
-                      </mat-option>
-                    </mat-select>
-                    <mat-error *ngIf="haserror('federalwithHoldingsCtrl','required')">
-                      Select Federal with Holdings!
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-
-              </div>
-              <div class="row" style="justify-content: center;">
-                <div class="col-xl-12col-lg-12 col-md-3 col-sm-3 mb-1">
-                  <mat-form-field class="example-full-width" appearance="outline">
-                    <mat-label>Citizen</mat-label>
-                    <mat-select placeholder="Citizen" formControlName="citizenCtrl" (selectionChange)="onChange($event)"
-                      name="citizens">
-                      <mat-option *ngFor="let ct of citizens" [value]="ct.citizenId">
-                        {{ct.code}}
-                      </mat-option>
-                    </mat-select>
-                    <mat-error *ngIf="haserror('citizenCtrl','required')">
-                      Select Citizen!
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-                <div class="col-xl-12col-lg-12 col-md-3 col-sm-3 mb-1" *ngIf="selectedCitizen == 'No'">
-                  <mat-form-field class="example-full-width" appearance="outline">
-                    <mat-label>Authorized Alien Number</mat-label>
-                    <input matInput type="text" placeholder="Authorized Alien Number" maxlength="10"
-                      formControlName="authorizedalienNumberCtrl" />
-                    <mat-error *ngIf="haserror('authorizedalienNumberCtrl','required')">
-                      Enter Claimant Last Name!
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-                <div class="col-xl-12col-lg-12 col-md-3 col-sm-3 mb-1" *ngIf="selectedCitizen !== 'No'"></div>
-                <div class="col-xl-12col-lg-12 col-md-3 col-sm-3 mb-1"></div>
-              </div>
-              <div class="row" style="justify-content: center;">
-
-                <div class="col-xl-12col-lg-12 col-md-3 col-sm-3 mb-1">
-                  <mat-form-field class="example-full-width" appearance="outline">
-                    <mat-label>Education</mat-label>
-                    <mat-select placeholder="Education" formControlName="educationCtrl" name="educations">
-                      <mat-option *ngFor="let ed of educations" [value]="ed.educationId">
-                        {{ed.code}}
-                      </mat-option>
-                    </mat-select>
-                    <mat-error *ngIf="haserror('educationCtrl','required')">
-                      Select Education!
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-                <div class="col-xl-12col-lg-12 col-md-3 col-sm-3 mb-1">
-                  <mat-form-field class="example-full-width" appearance="outline">
-                    <mat-label>Occupation</mat-label>
-                    <input matInput type="text" placeholder="Occupation" formControlName="occupationCtrl" />
-                  </mat-form-field>
-                </div>
-                <div class="col-xl-12col-lg-12 col-md-3 col-sm-3 mb-1"></div>
-              </div>
-              <div class="container-auth-form-btn" style="text-align: center;">
-                <button mat-flat-button color="primary" type="submit" style="margin-right:  20px;" (click)="onSubmit()">
-                  <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-check': !isLoading}"></i>
-                  {{button}}
-                </button>
-                <button mat-flat-button color="primary" (click)="onReset()" style="margin-right:  20px;">Clear</button>
-                <button color="primary" mat-flat-button mat-dialog-close>Close</button>
-              </div>
-
-            </div>
-          </div>
-
-
-        </form>
-      </div>
-    </mat-tab>
-    <mat-tab label="fileupload" style="height: 950px;">
-      <div>
-        <div class="container">
-          <div class="card">
-            <div class="body">
-              <h4 class="button-like"><b>File Bulk Partials</b>
-                <p>
-                  NEW FORMAT FOR 2023</p>
-              </h4>
-              <p class="same-width">
-                Please see revised excel file and instructions effective <br />
-                10/05/2021 - failure to comply with new format may result in file rejection.
-              </p>
-              <h4>File Formats:</h4>
-              <ul>
-                <li><a href="assets/images/Partials Bulk Excel File Instructions.pdf"><b>Upload File Format (Revised
-                      10/05/2021)</b></a></li>
-                <li><a href="assets/images/Partials Bulk Filing Instructions.pdf"><b>Partial Bulk Filing
-                      Spreadsheet(Revised 10/05/2021)</b></a></li>
-                <li><a href="assets/images/EmployeeDirectory_export_1691671945772.xlsx"><b>Upload Instructions /
-                      Requirements</b></a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="container">
-        <div class="card">
-          <form novalidate [formGroup]="formImport">
-            <div class="input-group mb-3">
-
-              <div class="custom-file">
-                <input type="file" class="custom-file-input" multiple formControlName="importFile" id="importFile"
-                  (change)="onFileChange($event)" />
-              </div>
-            </div>
-            <!-- <div class="card">
-
-              <table class="table">
-                <tbody>
-                  <tr *ngFor="let row of data">
-                    <td *ngFor="let val of row">
-                      {{val}}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-
-            </div> -->
-            <div class="table-container">
-              <table mat-table [dataSource]="dataSource">
-                <!-- Email Column -->
-                <ng-container matColumnDef="email">
-                  <th mat-header-cell *matHeaderCellDef>Email</th>
-                  <td mat-cell *matCellDef="let element">{{ element.email }}</td>
-                </ng-container>
-            
-                <!-- Social Security Number Column -->
-                <ng-container matColumnDef="socialSecurityNumber">
-                  <th mat-header-cell *matHeaderCellDef>Social Security Number</th>
-                  <td mat-cell *matCellDef="let element">{{ element.socialSecurityNumber }}</td>
-                </ng-container>
-            
-                <!-- Date of Birth Column -->
-                <ng-container matColumnDef="dateOfBirth">
-                  <th mat-header-cell *matHeaderCellDef>Date of Birth</th>
-                  <td mat-cell *matCellDef="let element">{{ element.dateOfBirth }}</td>
-                </ng-container>
-            
-                <!-- Telephone Number Column -->
-                <ng-container matColumnDef="telephoneNumber">
-                  <th mat-header-cell *matHeaderCellDef>Telephone Number</th>
-                  <td mat-cell *matCellDef="let element">{{ element.telephoneNumber }}</td>
-                </ng-container>
-            
-                <!-- Gender Column -->
-                <ng-container matColumnDef="gender">
-                  <th mat-header-cell *matHeaderCellDef>Gender</th>
-                  <td mat-cell *matCellDef="let element">{{ element.gender }}</td>
-                </ng-container>
-            
-                <!-- Gender Code Column -->
-                <ng-container matColumnDef="genderCode">
-                  <th mat-header-cell *matHeaderCellDef>Gender Code</th>
-                  <td mat-cell *matCellDef="let element">{{ element.genderCode }}</td>
-                </ng-container>
-            
-                <!-- Occupation Column -->
-                <ng-container matColumnDef="occupation">
-                  <th mat-header-cell *matHeaderCellDef>Occupation</th>
-                  <td mat-cell *matCellDef="let element">{{ element.occupation }}</td>
-                </ng-container>
-            
-                <!-- Mailing Address Column -->
-                <ng-container matColumnDef="mailingAddress">
-                  <th mat-header-cell *matHeaderCellDef>Mailing Address</th>
-                  <td mat-cell *matCellDef="let element">{{ element.mailingAddress }}</td>
-                </ng-container>
-            
-                <!-- Claimant First Name Column -->
-                <ng-container matColumnDef="claimantFirstName">
-                  <th mat-header-cell *matHeaderCellDef>Claimant First Name</th>
-                  <td mat-cell *matCellDef="let element">{{ element.claimantFirstName }}</td>
-                </ng-container>
-            
-                <ng-container matColumnDef="claimantMiddleName">
-                  <th mat-header-cell *matHeaderCellDef>claimant Middle Name</th>
-                  <td mat-cell *matCellDef="let element">{{ element.claimantMiddleName }}</td>
-                </ng-container>
-                <ng-container matColumnDef="claimantLastName">
-                  <th mat-header-cell *matHeaderCellDef>claimant Last Name</th>
-                  <td mat-cell *matCellDef="let element">{{ element.claimantLastName }}</td>
-                </ng-container>
-                <ng-container matColumnDef="claimantSuffix">
-                  <th mat-header-cell *matHeaderCellDef>claimant Suffix</th>
-                  <td mat-cell *matCellDef="let element">{{ element.claimantSuffix }}</td>
-                </ng-container>
-                <ng-container matColumnDef="authorizedAlienNumber">
-                  <th mat-header-cell *matHeaderCellDef>authorized Alien Number</th>
-                  <td mat-cell *matCellDef="let element">{{ element.authorizedAlienNumber }}</td>
-                </ng-container>
-                <ng-container matColumnDef="mailingStreetAddress">
-                  <th mat-header-cell *matHeaderCellDef>mailing Street Address</th>
-                  <td mat-cell *matCellDef="let element">{{ element.mailingStreetAddress }}</td>
-                </ng-container>
-                <ng-container matColumnDef="mailingCity">
-                  <th mat-header-cell *matHeaderCellDef>mailing City</th>
-                  <td mat-cell *matCellDef="let element">{{ element.mailingCity }}</td>
-                </ng-container>
-                <ng-container matColumnDef="mailingState">
-                  <th mat-header-cell *matHeaderCellDef>mailing State</th>
-                  <td mat-cell *matCellDef="let element">{{ element.mailingState }}</td>
-                </ng-container>
-                <ng-container matColumnDef="mailingStateCode">
-                  <th mat-header-cell *matHeaderCellDef>mailing State Code</th>
-                  <td mat-cell *matCellDef="let element">{{ element.mailingStateCode }}</td>
-                </ng-container>
-                <ng-container matColumnDef="zipCode">
-                  <th mat-header-cell *matHeaderCellDef>zipCode</th>
-                  <td mat-cell *matCellDef="let element">{{ element.zipCode }}</td>
-                </ng-container>
-                <ng-container matColumnDef="handicap">
-                  <th mat-header-cell *matHeaderCellDef>handicap</th>
-                  <td mat-cell *matCellDef="let element">{{ element.handicap }}</td>
-                </ng-container>
-                <ng-container matColumnDef="veteranStatus">
-                  <th mat-header-cell *matHeaderCellDef>veteran Status</th>
-                  <td mat-cell *matCellDef="let element">{{ element.veteranStatus }}</td>
-                </ng-container>
-                <ng-container matColumnDef="race">
-                  <th mat-header-cell *matHeaderCellDef>race</th>
-                  <td mat-cell *matCellDef="let element">{{ element.race }}</td>
-                </ng-container>
-                <ng-container matColumnDef="ethnicity">
-                  <th mat-header-cell *matHeaderCellDef>ethni city</th>
-                  <td mat-cell *matCellDef="let element">{{ element.ethnicity }}</td>
-                </ng-container>
-                <ng-container matColumnDef="federalwithHolding">
-                  <th mat-header-cell *matHeaderCellDef>federal with Holding</th>
-                  <td mat-cell *matCellDef="let element">{{ element.federalwithHolding }}</td>
-                </ng-container>
-                <ng-container matColumnDef="citizen">
-                  <th mat-header-cell *matHeaderCellDef>citizen</th>
-                  <td mat-cell *matCellDef="let element">{{ element.citizen }}</td>
-                </ng-container>
-                <!-- Education Column -->
-                <ng-container matColumnDef="education">
-                  <th mat-header-cell *matHeaderCellDef>Education</th>
-                  <td mat-cell *matCellDef="let element">{{ element.education }}</td>
-                </ng-container>
-            
-                <!-- Header Row -->
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <!-- Data Rows -->
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="OpenEditDialog(row)"></tr>
-              </table>
-            </div>
-            
-            <div class="container-auth-form-btn" style="text-align: center;">
-              <button mat-flat-button color="primary" type="submit" style="margin-right:  20px;">
-                <i class="fa" [ngClass]="{'fa-spin fa-spinner': isLoading, 'fa-check': !isLoading}"></i>
-                {{button}}
-              </button>
-              <button color="primary" mat-flat-button mat-dialog-close>Close</button>
-            </div>
-          </form>
-        </div>
-      </div>
-
-
-    </mat-tab>
-
-  </mat-tab-group>
-
-</div>
+    

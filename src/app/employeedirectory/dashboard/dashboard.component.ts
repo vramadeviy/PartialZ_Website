@@ -1,9 +1,9 @@
 
-import { Component, OnInit,ViewChild,ElementRef, resolveForwardRef } from '@angular/core';
+import { Component, OnInit,ViewChild,ElementRef, Input } from '@angular/core';
 import { PartialzService } from 'src/app/core/service/partialz.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
-import {MatTableDataSource,} from '@angular/material/table';
+import {MatTableDataSource} from '@angular/material/table';
 import { MatSort} from '@angular/material/sort';
 import {MatPaginator} from '@angular/material/paginator';
 import { CreateemployeedirectoryComponent } from '../createemployeedirectory/createemployeedirectory.component';
@@ -12,6 +12,7 @@ import { ConfirmationDialogComponent } from '../../confirmation-dialog/confirmat
 import { Router, ActivatedRoute } from '@angular/router';
 import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
+import { environment } from 'src/environments/environment';
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
 export interface Element {
@@ -27,7 +28,14 @@ export interface Element {
   mailingCity:string,
   mailingStateCode:string,
   zipCode: number;  
-  weight: number;
+  citizen: string;
+  ethnicity: string;
+  race: string;
+  handicap : string;
+  federalwithHolding : string;
+  veteranStatus : string;
+  education:string;
+  authorizedAlienNumber: string;
   symbol: string;
 }
 @Component({
@@ -38,7 +46,7 @@ export interface Element {
 
 export class DashboardComponent {
   displayedColumns= [
-    { def: 'index', label: 'index', hide: false},
+   // { def: 'index', label: 'index', hide: false},
     { def: 'socialSecurityNumber', label: 'socialSecurityNumber', hide: false},
     { def: 'dateOfBirth', label: 'dateOfBirth', hide: false},
     { def: 'claimantFirstName', label: 'claimantFirstName', hide: false},
@@ -72,9 +80,10 @@ export class DashboardComponent {
   @ViewChild('filter') filter!: ElementRef;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  constructor(private _partialzService : PartialzService,     public _dialog: MatDialog,  private router: Router,  private _snackBar: MatSnackBar,
+  constructor(private _partialzService : PartialzService,
+    public _dialog: MatDialog,  private router: Router,  private _snackBar: MatSnackBar,
     ){
-   
+     
   }
   public ngOnInit(): void {
     var authEmail = localStorage.getItem('email');
@@ -129,26 +138,32 @@ export class DashboardComponent {
     },
       });
     dialogRef.afterClosed().subscribe(result => {
+      console.log("email", result);
+      localStorage.setItem('email',result.Email);  
       this.bindGridData();
     });
   }
-  delete(ssn:string)
+  delete(SocialSecurityNumber:string)
   {
     const dialogRef = this._dialog.open(ConfirmationDialogComponent);
-if(ssn!=null)
-{
-  
+    if(SocialSecurityNumber!=null)
+    {  
     dialogRef.afterClosed().subscribe(result => {
       if (result) { 
-        console.log(ssn) ;
-        console.log(result) ;
-        this._partialzService.post<any>('https://localhost:7178/api/EmployeeDirectory/DeleteEmployeeDirectory', ssn).subscribe(
+       const body={ SocialSecurityNumber :SocialSecurityNumber,
+      Email:localStorage.getItem('email') };
+        this._partialzService.post<any>(environment.apiUrl+'/EmployeeDirectory/DeleteEmployeeDirectory', body).subscribe(
       (response) => {
-        if(response.includes('Deleted Successfully..'))
-        this.showSnackbar(response, "OK");
+        console.group("response",response);
+        if (response.result==1) {      
+              this.showSnackbar("Deleted successfully", "OK");
+             this.bindGridData();
+            } else {
+              this.showSnackbar("Something went wrong please try again", "Close");              
+            }
       });
-      }
-    }); 
+    }
+  });
   }
   }
   applyFilter(filterValue:any) {
@@ -161,6 +176,8 @@ if(ssn!=null)
       height:'870px',  // Set height to 530px
       });
     dialogRef.afterClosed().subscribe(result => {
+      console.log("email", result);
+      localStorage.setItem('email',result.Email);  
       this.bindGridData();
     });
   }
@@ -186,12 +203,13 @@ if(ssn!=null)
     }
     return true;
     }
-  public bindGridData ():void
+  public bindGridData():void
   {
+    console.log("local email", localStorage.getItem('email'));
     var authEmail = localStorage.getItem('email');
     if(authEmail!=null)
     {
-    this._partialzService.get<any>('https://localhost:7178/api/EmployeeDirectory/EmployeeDirectoryDetails?EmailID=' + authEmail).subscribe(
+    this._partialzService.get<any>(environment.apiUrl+'/EmployeeDirectory/EmployeeDirectoryDetails?EmailID=' + authEmail).subscribe(
       (data) => {
         {     
           this.tableData=data;
@@ -199,6 +217,9 @@ if(ssn!=null)
         } 
       }
     );
+    }
+    else{
+      this.router.navigate(['/authentication/signin']);
     }
   }
 }

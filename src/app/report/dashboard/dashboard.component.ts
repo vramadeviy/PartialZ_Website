@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { json } from 'd3';
 import { PartialzService } from 'src/app/core/service/partialz.service';
+import { environment } from 'src/environments/environment';
 export interface FilerNames {
   filerId: number;
   filerName: string;
@@ -29,7 +30,7 @@ this.bindGridData();
     var authEmail = localStorage.getItem('email');
     if(authEmail!=null)
     {
-    this._partialzService.get<any>('https://localhost:7178/api/Employee/GetFilerNames').subscribe(
+    this._partialzService.get<any>(environment.apiUrl+'/Employee/GetFilerNames').subscribe(
       (data) => {
         { 
            this.filernames=data;   

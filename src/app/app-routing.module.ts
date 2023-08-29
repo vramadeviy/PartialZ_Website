@@ -32,27 +32,20 @@ const routes: Routes = [
         loadChildren: () =>
           import('./employeedirectory/employeedirectory.module').then((m) => m.EmployeeDirectoryModule),
       },
+     
       {
         path: 'report',
         
         loadChildren: () =>
           import('./report/report.module').then((m) => m.ReportModule),
       },
-      // Extra components
-      {
-        path: 'extra-pages',
+        {
+        path: 'report',
+        
         loadChildren: () =>
-          import('./extra-pages/extra-pages.module').then(
-            (m) => m.ExtraPagesModule
-          ),
+          import('./report/report.module').then((m) => m.ReportModule),
       },
-      {
-        path: 'multilevel',
-        loadChildren: () =>
-          import('./multilevel/multilevel.module').then(
-            (m) => m.MultilevelModule
-          ),
-      },
+      
     
     ],
   },

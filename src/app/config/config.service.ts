@@ -6,7 +6,7 @@ import { InConfiguration } from '../core/models/config.interface';
 })
 export class ConfigService {
   public configData!: InConfiguration;
-
+private baseURL = 'https://adol-partialsapi-dev.adoldevtest.appserviceenvironment.net/PartialsApi-Dev/api';
   constructor() {
     this.setConfigData();
   }
@@ -25,4 +25,14 @@ export class ConfigService {
       },
     };
   }
+
+  get loginApiURL():string
+  {
+    return `${this.baseURL}/Login`
+  }
+  get employeeApiURL():string
+  {
+    return `${this.baseURL}/Login`
+  }
+  
 }

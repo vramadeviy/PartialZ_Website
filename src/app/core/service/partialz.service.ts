@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 
 @Injectable({
@@ -30,24 +31,10 @@ export class PartialzService {
 
   show() { this.visible = false;   };
 
-  public getItems() {
-    const url = 'https://localhost:7178/api/Employee?EmailID=rakhi.rakesh237@gamil.com';
-
-    // Send GET request
-    this.http.get(url).subscribe(
-      (response) => {
-        // Handle the response data
-        console.log(response);
-      },
-      (error) => {
-        // Handle the error
-        console.error(error);
-      }
-    );
-  }
+  
   // POST request example
   public RegsregisterEmployee(emailID: string, Password: string) {
-    const url = 'https://localhost:7178/api/Employee';
+    const url = environment.apiUrl+'/Employee';
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     const body = {
       Email: emailID,

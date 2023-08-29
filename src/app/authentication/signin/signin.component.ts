@@ -11,6 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { PartialzService } from 'src/app/core/service/partialz.service';
 
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-signin',
   templateUrl: './signin.component.html',
@@ -76,7 +77,7 @@ button="Login";
     this.isLoading = true;
     this.button = 'Processing';
 
-    this._partialzService.post<any>('https://localhost:7178/api/Login', body).subscribe(
+    this._partialzService.post<any>(environment.apiUrl+'/Login', body).subscribe(
       (response) => {
         if (response.includes('We have sent you the otp to register email.')) {
           this.showSnackbar(response, "OK");
@@ -140,7 +141,7 @@ button="Login";
     
     }
     ValidateOTP(body: any): void {
-      this._partialzService.post<any>('https://localhost:7178/api/Login/Validate', body).subscribe(
+      this._partialzService.post<any>(environment.apiUrl+'/Login/Validate', body).subscribe(
         (response) => {
           if (response.includes('OTP verified successfully')) {
             this.showSnackbar(response, "OK");
